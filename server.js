@@ -9,6 +9,7 @@ import expressSession from 'express-session';
 import passport from 'passport';
 import mongoose from 'mongoose';
 import sha1 from 'sha1';
+import cors from 'cors';
 import {Strategy as LocalStrategy} from 'passport-local';
 
 const port = process.env.PORT || 3000;
@@ -18,6 +19,7 @@ mongoose.connect('mongodb://localhost/brokers');
 app.set('views', __dirname + '/app/views');
 app.set('view engine', 'ejs');
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -29,6 +31,10 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', express.static(__dirname + '/public'));
+
+app.get('/test', function (req, res, next) {
+  res.json({msg: 'Enviado desde el Servidor'})
+})
 
 import User from './app/models/user';
 
