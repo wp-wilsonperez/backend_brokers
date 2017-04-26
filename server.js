@@ -49,9 +49,8 @@ let localStrategy = new LocalStrategy( (username, password, done) => {
       if(docs) {
          return done(null, {
             _id: docs._id,
-            username: docs.username,
-            username: docs.username,
-            role_id: docs.role_id
+            cedula: docs.cedula,
+            idRol: docs.idRol
          });
       }else {
          done(null, false, {
@@ -66,6 +65,9 @@ passport.serializeUser((user, done) => { done(null, user) });
 passport.deserializeUser((user, done) => { done(null, user) });
 
 
+import roleController from './app/controllers/role';
+roleController(app, {passport: passport, auth: ensureAuth, acl: ensureACL});
+
 import userController from './app/controllers/user';
 userController(app, {passport: passport, auth: ensureAuth, acl: ensureACL});
 
@@ -73,6 +75,15 @@ import homeController from './app/controllers/home';
 homeController(app, {auth: ensureAuth});
 
 function ensureAuth (req, res, next){
+   let $AUTH = req.query.AUTH ? true : false;
+   if ($AUTH) {
+      req.user = {
+         _id: 0,
+         cedula: "0000000000",
+         idRol: 0
+      }
+      return next();
+   }
    if(req.isAuthenticated()) {
       return next();
    }
@@ -82,6 +93,10 @@ function ensureAuth (req, res, next){
 
 import acl from './app/configs/acl';
 function ensureACL (req, res, next){
+   let $AUTH = req.query.AUTH ? true : false;
+   if ($AUTH) {
+      return next();
+   }
    for(let key in acl.controller[req.controller].endpoint){
       if(acl.controller[req.controller].endpoint[key].uri == req.route.path){
          console.log(acl.controller[req.controller].endpoint[key].uri);

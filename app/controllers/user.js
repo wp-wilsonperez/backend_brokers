@@ -63,13 +63,9 @@ let userController = function (app, control={auth, passport, acl}){
 
    app.get('/users', [control.auth, controller, control.acl], (req, res) => {
 
-      let userSession = false;
-      if(req.user){
-         userSession = req.user
-      }
       User.find({}, function (err, docs) {
          if (typeof docs !== 'undefined') {
-            res.render('user/index', {userSession: userSession, users: docs});
+            res.send({msg: "finded", users: docs});
          } else {
             res.send({
                result : 'error',
@@ -80,44 +76,87 @@ let userController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.get('/useradd', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/user/:id', [control.auth, controller, control.acl], (req, res) => {
 
-      let userSession = false;
-      if(req.user){
-         userSession = req.user;
-      }
+      User.findById(req.params.id, function (err, doc) {
+         if (!err) {
+            res.send({msg: "finded", user: doc});
+         } else {
+            res.send({result: 'error', err: err});
+         }
+      });
 
-      res.render('user/add', {userSession: userSession, rols: acl.rol});
-      
    });
 
-   app.post('/user/add', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/user/:id', [control.auth, controller, control.acl], (req, res) => {
 
-      let user = new User({
-         firstname: req.body.firstname,
+      let filter = {
+         _id: req.params.id
+      }
+
+      let update = {
+         name: req.body.name,
          lastname: req.body.lastname,
-         username: req.body.username,
+         cedula: req.body.cedula,
          password: sha1(req.body.password),
-         role_id: req.body.role_id,
-         img: "user.jpg"
-      });
-      user.save((err, resp) => {
-         if(err){
-            console.log(err);
-            res.status(401).send({"save": false});
+         dateBirthday: req.body.dateBirthday,
+         idRol: req.body.idRol,
+         dateUpdate: moment(),
+         userUpdate: req.user._id,
+         Enabled: req.body.Enabled
+      };
+
+      User.findOneAndUpdate(filter, update, function (err, doc) {
+         if (!err) {
+            res.send({msg: "updated"});
          } else {
-            console.log(user);   
-            res.send({"save": true});
+            res.send({result: 'error', err: err});
+         }
+      });
+
+   });
+
+   app.post('/user', [control.auth, controller, control.acl], (req, res) => {
+      let user = new User({
+         name: req.body.name,
+         lastname: req.body.lastname,
+         cedula: req.body.cedula,
+         password: sha1(req.body.password),
+         dateBirthday: req.body.dateBirthday,
+         idRol: req.body.idRol,
+         dateCreate: moment(),
+         userCreate: req.user._id,
+         dateUpdate: moment(),
+         userUpdate: req.user._id,
+         Enabled: req.body.Enabled
+      });
+
+      user.save((err, doc) => {
+         if(!err){
+            res.send({msg: "saved"});
+         } else {
+            res.send({result: 'error', err: err});
          }            
       });
 
    });
 
-   app.get('/testacl', [control.auth, controller, control.acl], (req, res) => {
+   app.delete('/user/:id', [control.auth, controller, control.acl], (req, res) => {
 
-      res.send({"resp": "no"});
+      let filter = {
+         _id: req.params.id
+      }
+
+      User.findByIdAndRemove(filter, function (err, doc) {
+         if(!err){
+            res.send({msg: "deleted"});
+         } else {
+            res.send({result: 'error', err: err});
+         }            
+      });
 
    });
+
 }
 
 export default userController
