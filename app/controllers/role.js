@@ -11,14 +11,22 @@ let roleController = function (app, control={auth, passport, acl}){
       return next();
    }
 
+   function findAction (callback){
+      Role.find({}, function (err, docs) {
+         if (!err) {
+            callback(docs)
+         }
+      });
+   }
+
    app.get('/roles', [control.auth, controller, control.acl], (req, res) => {
 
       Role.find({}, function (err, docs) {
          if (typeof docs !== 'undefined') {
-            res.send({msg: "finded", roles: docs});
+            res.send({msg: "OK", roles: docs});
          } else {
             res.send({
-               result : 'error',
+               msg : 'ERR',
                err : err.code
             });
          }
@@ -30,9 +38,9 @@ let roleController = function (app, control={auth, passport, acl}){
 
       Role.findById(req.params.id, function (err, doc) {
          if (!err) {
-            res.send({msg: "finded", role: doc});
+            res.send({msg: "OK", role: doc});
          } else {
-            res.send({result: 'error', err: err});
+            res.send({msg: 'ERR', err: err});
          }
       });
 
@@ -51,9 +59,11 @@ let roleController = function (app, control={auth, passport, acl}){
 
       role.save((err, doc) => {
          if(!err){
-            res.send({msg: "saved"});
+            findAction(function(docs){
+               res.send({msg: "OK", update: docs});
+            });
          } else {
-            res.send({result: 'error', err: err});
+            res.send({msg: 'ERR', err: err});
          }            
       });
 
@@ -74,9 +84,11 @@ let roleController = function (app, control={auth, passport, acl}){
 
       Role.findOneAndUpdate(filter, update, function (err, doc) {
          if (!err) {
-            res.send({msg: "updated"});
+            findAction(function(docs){
+               res.send({msg: "OK", update: docs});
+            });
          } else {
-            res.send({result: 'error', err: err});
+            res.send({msg: 'ERR', err: err});
          }
       });
 
@@ -90,9 +102,11 @@ let roleController = function (app, control={auth, passport, acl}){
 
       Role.findByIdAndRemove(filter, function (err, doc) {
          if(!err){
-            res.send({msg: "deleted"});
+            findAction(function(docs){
+               res.send({msg: "OK", update: docs});
+            });
          } else {
-            res.send({result: 'error', err: err});
+            res.send({msg: 'ERR', err: err});
          }            
       });
 

@@ -12,6 +12,14 @@ let userController = function (app, control={auth, passport, acl}){
       return next();
    }
 
+   function findAction (callback){
+      User.find({}, function (err, docs) {
+         if (!err) {
+            callback(docs)
+         }
+      });
+   }
+
    app.get('/login', (req, res) => {
 
       res.render('user/login');
@@ -65,10 +73,10 @@ let userController = function (app, control={auth, passport, acl}){
 
       User.find({}, function (err, docs) {
          if (typeof docs !== 'undefined') {
-            res.send({msg: "finded", users: docs});
+            res.send({msg: "OK", users: docs});
          } else {
             res.send({
-               result : 'error',
+               msg : 'ERR',
                err : err.code
             });
          }
@@ -80,9 +88,9 @@ let userController = function (app, control={auth, passport, acl}){
 
       User.findById(req.params.id, function (err, doc) {
          if (!err) {
-            res.send({msg: "finded", user: doc});
+            res.send({msg: "OK", user: doc});
          } else {
-            res.send({result: 'error', err: err});
+            res.send({msg: 'ERR', err: err});
          }
       });
 
@@ -108,15 +116,18 @@ let userController = function (app, control={auth, passport, acl}){
 
       User.findOneAndUpdate(filter, update, function (err, doc) {
          if (!err) {
-            res.send({msg: "updated"});
+            findAction(function(docs){
+               res.send({msg: "OK", update: docs});
+            });
          } else {
-            res.send({result: 'error', err: err});
+            res.send({msg: 'ERR', err: err});
          }
       });
 
    });
 
    app.post('/user', [control.auth, controller, control.acl], (req, res) => {
+
       let user = new User({
          name: req.body.name,
          lastname: req.body.lastname,
@@ -133,9 +144,11 @@ let userController = function (app, control={auth, passport, acl}){
 
       user.save((err, doc) => {
          if(!err){
-            res.send({msg: "saved"});
+            findAction(function(docs){
+               res.send({msg: "OK", update: docs});
+            });
          } else {
-            res.send({result: 'error', err: err});
+            res.send({msg: 'ERR', err: err});
          }            
       });
 
@@ -149,9 +162,11 @@ let userController = function (app, control={auth, passport, acl}){
 
       User.findByIdAndRemove(filter, function (err, doc) {
          if(!err){
-            res.send({msg: "deleted"});
+            findAction(function(docs){
+               res.send({msg: "OK", update: docs});
+            });
          } else {
-            res.send({result: 'error', err: err});
+            res.send({msg: 'ERR', err: err});
          }            
       });
 
