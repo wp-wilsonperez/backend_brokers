@@ -1,3 +1,4 @@
+public/uploads/user/*
 node_modules
 ignore
 *.log
