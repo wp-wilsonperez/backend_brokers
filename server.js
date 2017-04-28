@@ -65,6 +65,12 @@ passport.serializeUser((user, done) => { done(null, user) });
 passport.deserializeUser((user, done) => { done(null, user) });
 
 
+import businessController from './app/controllers/business';
+businessController(app, {passport: passport, auth: ensureAuth, acl: ensureACL});
+
+import moduleController from './app/controllers/module';
+moduleController(app, {passport: passport, auth: ensureAuth, acl: ensureACL});
+
 import roleController from './app/controllers/role';
 roleController(app, {passport: passport, auth: ensureAuth, acl: ensureACL});
 
