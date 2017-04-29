@@ -2,16 +2,19 @@
 import sha1 from 'sha1';
 import moment from 'moment';
 import multer from 'multer';
+import nodemailer from 'nodemailer';
 import fs from 'fs';
 import acl from "../configs/acl";
+import configmailer from "../configs/nodemailer";
 
 import Business from "../models/business";
 
 const pathRender = `uploads/business`;
 const pathBusiness = `./public/${pathRender}`;
+const smtpTransport =  nodemailer.createTransport(`smtps://${configmailer.mail}%40gmail.com:${configmailer.password}@smtp.gmail.com`);
 
 if (!fs.existsSync(pathBusiness)){
-    fs.mkdirSync('business');
+    fs.mkdirSync(pathBusiness);
 }
 
 let storage = multer.diskStorage({
@@ -82,11 +85,10 @@ let businessController = function (app, control={auth, passport, acl}){
          movil: req.body.movil,
          address: req.body.address,
          businessImg: req.body.businessImg,
-         name: req.body.name,
          description: req.body.description,
          constitutionDate: req.body.constitutionDate,
          parking: req.body.parking,
-         numberBus: req.body.numberBus,
+         numberEmp: req.body.numberEmp,
          mail: req.body.mail,
          web: req.body.web,
          Enabled: req.body.Enabled,
@@ -102,6 +104,23 @@ let businessController = function (app, control={auth, passport, acl}){
       business.save((err, doc) => {
          if(!err){
             findAction(function(docs){
+               let html = "";
+               html += "<br>Test : send</br>";
+            let mailOptions = {
+               from: `TEST<${configmailer.mail}@gmail.com>`,
+               to: doc.mail,
+               subject: "subjet test",
+               html: html
+            };
+
+            smtpTransport.sendMail(mailOptions, function(error, response){
+               if(error){
+                  console.log("No Send");
+                  console.log(error);
+               }else{
+                  console.log("Send");
+               }
+            });
                res.send({msg: "OK", update: docs});
             });
          } else {
@@ -126,11 +145,10 @@ let businessController = function (app, control={auth, passport, acl}){
          movil: req.body.movil,
          address: req.body.address,
          businessImg: req.body.businessImg,
-         name: req.body.name,
          description: req.body.description,
          constitutionDate: req.body.constitutionDate,
          parking: req.body.parking,
-         numberBus: req.body.numberBus,
+         numberEmp: req.body.numberEmp,
          mail: req.body.mail,
          web: req.body.web,
          Enabled: req.body.Enabled,

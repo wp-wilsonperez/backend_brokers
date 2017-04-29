@@ -11,7 +11,7 @@ const pathRender = `uploads/user`;
 const pathUser = `./public/${pathRender}`;
 
 if (!fs.existsSync(pathUser)){
-    fs.mkdirSync('user');
+    fs.mkdirSync(pathUser);
 }
 
 let storage = multer.diskStorage({
