@@ -1,0 +1,58 @@
+{
+  "controller" : [
+    {
+      "user" : {
+        "action" : [
+          {
+            "url" : "/users",
+            "type": "get",
+            "menu": true,
+            "show": "Listado de Ysuarios"
+          },
+          {
+            "url" : "/user",
+            "type": "post",
+            "menu" : false,
+            "show": "Agregar Usuario"
+          }
+        ]
+      }
+    },
+    {
+      "role" : {
+        "action" : [
+          {
+            "url" : "/roles",
+            "type": "get",
+            "menu": true,
+            "show": "Listado de Roles"
+          },
+          {
+            "url" : "/role",
+            "type": "post",
+            "menu" : false,
+            "show": "Agregar Rol"
+          }
+        ]
+      }
+    },
+    {
+      "business" : {
+        "action" : [
+          {
+            "url" : "/businesses",
+            "type": "get",
+            "menu": true,
+            "show": "Formato de Empresas"
+          },
+          {
+            "url" : "/business",
+            "type": "post",
+            "menu" : false,
+            "show": "Agregar Empresa"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 
 import moment from 'moment';
 import acl from "../configs/acl";
+import module from "../configs/module";
 
 import Role from "../models/role";
 
@@ -108,6 +109,46 @@ let roleController = function (app, control={auth, passport, acl}){
          } else {
             res.send({msg: 'ERR', err: err});
          }            
+      });
+
+   });
+
+   app.get('/role/grant/:id', [control.auth, controller, control.acl], (req, res) => {
+
+      Role.findById(req.params.id, function (err, doc) {
+         if (!err) {
+            res.send({msg: "OK", grant: doc.grant, module: module});
+         } else {
+            res.send({msg: 'ERR', err: err});
+         }
+      });
+
+   });
+
+   app.post('/role/grant/:id', [control.auth, controller, control.acl], (req, res) => {
+
+      let filter = {
+         _id: req.params.id
+      }
+
+      console.log(req.body.grant);
+      let $grants = req.body.grant;
+      /*$grants.forEach(function(grant, index) {
+         console.log(grant);
+      });*/
+
+      let update = {
+         grant: req.body.grant
+      };
+
+      Role.findOneAndUpdate(filter, update, function (err, doc) {
+         if (!err) {
+            findAction(function(docs){
+               res.send({msg: "OK", update: docs});
+            });
+         } else {
+            res.send({msg: 'ERR', err: err});
+         }
       });
 
    });
