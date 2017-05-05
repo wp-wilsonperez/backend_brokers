@@ -50,29 +50,14 @@ let userController = function (app, control={auth, passport, acl}){
       res.render('user/login');
    });
 
-   app.post('/login', (req, res, next) => {
+   app.post('/user/login', (req, res, next) => {
       control.passport.authenticate('local', (err, user) => {
-      switch (req.accepts('html', 'json')) {
-         case 'html':
-            if (err) { return next(err); }
-            if (!user) { return res.redirect(303, '/login'); }
-            console.log(user);
-            req.logIn(user, function (err) {
-               if (err) { return next(err); }
-               return res.redirect('/admin');             
-            });
-            break;
-         case 'json':
-            if (err)  { return next(err); }
+      if (err)  { return next(err); }
             if (!user) { return res.status(401).send({"login": false}); }
             req.logIn(user, function (err) {
                if (err) { return res.status(401).send({"login": false}); }
-               return res.send({"login": true, "username": user.username});
+               return res.send({"login": true, "user": user});
             });
-            break;
-         default:
-            res.status(406).send();
-      }
 
       })(req, res, next);
       

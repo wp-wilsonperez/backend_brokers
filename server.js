@@ -38,9 +38,13 @@ app.get('/test', function (req, res, next) {
 
 import User from './app/models/user';
 
-let localStrategy = new LocalStrategy( (username, password, done) => {
-   console.log(sha1(password));
-   User.findOne({username: username, password: sha1(password)}, (err, docs) => {
+let localStrategy = new LocalStrategy({
+      usernameField: 'cedula',
+      passwordField: 'password',
+      session: false
+      }, (username, password, done) => {
+
+   User.findOne({cedula: username, password: sha1(password)}, (err, docs) => {
       if(err) {
          done(null, false, {
             message: 'Error'
