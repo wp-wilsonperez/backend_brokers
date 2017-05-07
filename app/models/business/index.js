@@ -21,9 +21,9 @@ let BusinessSchema = new mongoose.Schema({
 	key: {type: String, require: true},
 	nameBBDD: {type: String, require: true},
 	dateCreate: {type: Date, require: true},
-	userCreate: {type: Number, require: true},
-	dateUpdate: {type: String, require: true},
-	userUpdate: {type: Number, require: true}
+	userCreate: {type: String, require: true},
+	dateUpdate: {type: Date, require: true},
+	userUpdate: {type: String, require: true}
 });
 
 export default mongoose.model('Business', BusinessSchema)

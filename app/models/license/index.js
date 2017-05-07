@@ -7,9 +7,9 @@ let LicenseSchema = new mongoose.Schema({
 	months: {type: Number, require: true},
 	years: {type: Number, require: true},
 	dateCreate: {type: Date, require: true},
-	userCreate: {type: Number, require: true},
-	dateUpdate: {type: String, require: true},
-	userUpdate: {type: Number, require: true}
+	userCreate: {type: String, require: true},
+	dateUpdate: {type: Date, require: true},
+	userUpdate: {type: String, require: true}
 });
 
 export default mongoose.model('License', LicenseSchema)
