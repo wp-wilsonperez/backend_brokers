@@ -54,6 +54,9 @@ let localStrategy = new LocalStrategy({
          return done(null, {
             _id: docs._id,
             cedula: docs.cedula,
+            name: docs.name,
+            lastName: docs.lastName,
+            userImg: docs.userImg,
             idRol: docs.idRol
          });
       }else {
