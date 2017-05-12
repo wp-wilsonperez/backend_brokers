@@ -18,7 +18,7 @@ let BusinessSchema = new mongoose.Schema({
 	web: {type: String, require: true},
 	Enabled: {type: String, require: true},
 	Actived: {type: String, require: true},
-	key: {type: String, require: true},
+	idLicense: {type: String, require: true},
 	nameBBDD: {type: String, require: true},
 	dateCreate: {type: Date, require: true},
 	userCreate: {type: String, require: true},

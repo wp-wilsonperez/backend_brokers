@@ -1,5 +1,6 @@
 
 import moment from 'moment';
+import sha1 from 'sha1';
 import acl from "../configs/acl";
 
 import License from "../models/license";
@@ -48,9 +49,13 @@ let licenseController = function (app, control={auth, passport, acl}){
 
    app.post('/license', [control.auth, controller, control.acl], (req, res) => {
 
+      let $d = req.body;
+      let $key = sha1(`${$d.dateStart}-${$d.years}-${$d.months}-${$d.days}`);
+
       let license = new License({
-         key: req.body.key,
+         key: $key,
          dateStart: req.body.dateStart,
+         years: req.body.years,
          months: req.body.months,
          days: req.body.days,
          dateCreate: moment(),
@@ -77,9 +82,13 @@ let licenseController = function (app, control={auth, passport, acl}){
          _id: req.params.id
       }
 
+      let $d = req.body;
+      let $key = sha1(`${$d.dateStart}-${$d.years}-${$d.months}-${$d.days}`);
+
       let update = {
-         key: req.body.key,
+         key: $key,
          dateStart: req.body.dateStart,
+         years: req.body.years,
          months: req.body.months,
          days: req.body.days,
          dateUpdate: moment(),
