@@ -66,9 +66,7 @@ let licenseController = function (app, control={auth, passport, acl}){
 
       license.save((err, doc) => {
          if(!err){
-            findAction(function(docs){
-               res.send({msg: "OK", update: docs});
-            });
+            res.send({msg: "OK", doc: doc});
          } else {
             res.send({msg: 'ERR', err: err});
          }            
