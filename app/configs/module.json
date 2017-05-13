@@ -7,7 +7,7 @@
             "url" : "/users",
             "type": "get",
             "menu": true,
-            "show": "Listado de Ysuarios"
+            "show": "Listado de Usuarios"
           },
           {
             "url" : "/user",

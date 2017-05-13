@@ -117,7 +117,7 @@ let roleController = function (app, control={auth, passport, acl}){
 
       Role.findById(req.params.id, function (err, doc) {
          if (!err) {
-            res.send({msg: "OK", grant: doc.grant, module: module});
+            res.send({msg: "OK", grant: JSON.parse(doc.grant), module: module});
          } else {
             res.send({msg: 'ERR', err: err});
          }
@@ -131,15 +131,16 @@ let roleController = function (app, control={auth, passport, acl}){
          _id: req.params.id
       }
 
-      console.log(req.body.grant);
-      let $grants = req.body.grant;
-      /*$grants.forEach(function(grant, index) {
-         console.log(grant);
-      });*/
-
+      let $grant = req.body.grant;
+      console.log($grant);
+      console.log(typeof($grant));
+      if (typeof($grant) === "object") {
+         console.log("objetoso no está definido.");
+      }
       let update = {
-         grant: req.body.grant
+         grant: JSON.stringify($grant)
       };
+      console.log(update);
 
       Role.findOneAndUpdate(filter, update, function (err, doc) {
          if (!err) {
