@@ -93,7 +93,7 @@ let businessController = function (app, control={auth, passport, acl}){
          web: req.body.web,
          Enabled: req.body.Enabled,
          Actived: req.body.Actived,
-         key: "key Aleatorio",
+         idLicense: req.body.idLicense,
          nameBBDD: "name BBDD",
          dateCreate: moment(),
          userCreate: req.user._id,
