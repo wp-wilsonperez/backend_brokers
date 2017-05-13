@@ -117,7 +117,8 @@ let roleController = function (app, control={auth, passport, acl}){
 
       Role.findById(req.params.id, function (err, doc) {
          if (!err) {
-            res.send({msg: "OK", grant: JSON.parse(doc.grant), module: module});
+            let $grant = doc.grant != "" ? JSON.parse(doc.grant) : {};
+            res.send({msg: "OK", grant: $grant, module: module});
          } else {
             res.send({msg: 'ERR', err: err});
          }
@@ -134,8 +135,8 @@ let roleController = function (app, control={auth, passport, acl}){
       let $grant = req.body.grant;
       console.log($grant);
       console.log(typeof($grant));
-      if (typeof($grant) === "object") {
-         console.log("objetoso no está definido.");
+      if (typeof($grant) !== "object") {
+         return res.send({msg: 'ERR', err: "the format is not an objet"});
       }
       let update = {
          grant: JSON.stringify($grant)
