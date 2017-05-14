@@ -96,6 +96,9 @@ function ensureAuth (req, res, next){
       req.user = {
          _id: 0,
          cedula: "0000000000",
+         name: "name",
+         lastName: "lastName",
+         userImg: "",
          idRol: 0
       }
       return next();

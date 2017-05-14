@@ -20,7 +20,7 @@ let roleController = function (app, control={auth, passport, acl}){
       });
    }
 
-   app.get('/roles', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/role/list', [control.auth, controller, control.acl], (req, res) => {
 
       Role.find({}, function (err, docs) {
          if (typeof docs !== 'undefined') {
@@ -35,7 +35,7 @@ let roleController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.get('/role/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/role/view/:id', [control.auth, controller, control.acl], (req, res) => {
 
       Role.findById(req.params.id, function (err, doc) {
          if (!err) {
@@ -47,7 +47,7 @@ let roleController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/role', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/role/add', [control.auth, controller, control.acl], (req, res) => {
 
       let role = new Role({
          name: req.body.name,
@@ -70,7 +70,7 @@ let roleController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/role/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/role/edit/:id', [control.auth, controller, control.acl], (req, res) => {
 
       let filter = {
          _id: req.params.id
@@ -95,7 +95,7 @@ let roleController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.delete('/role/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.delete('/role/delete/:id', [control.auth, controller, control.acl], (req, res) => {
 
       let filter = {
          _id: req.params.id
@@ -113,7 +113,7 @@ let roleController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.get('/role/grant/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/role/grantview/:id', [control.auth, controller, control.acl], (req, res) => {
 
       Role.findById(req.params.id, function (err, doc) {
          if (!err) {
@@ -126,7 +126,7 @@ let roleController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/role/grant/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/role/grantadd/:id', [control.auth, controller, control.acl], (req, res) => {
 
       let filter = {
          _id: req.params.id

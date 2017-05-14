@@ -47,7 +47,7 @@ let businessController = function (app, control={auth, passport, acl}){
       });
    }
 
-   app.get('/businesses', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/business/list', [control.auth, controller, control.acl], (req, res) => {
 
       Business.find({}, function (err, docs) {
          if (typeof docs !== 'undefined') {
@@ -62,7 +62,7 @@ let businessController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.get('/businesses/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/business/view/:id', [control.auth, controller, control.acl], (req, res) => {
 
       Business.findById(req.params.id, function (err, doc) {
          if (!err) {
@@ -74,7 +74,7 @@ let businessController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/business', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/business/add', [control.auth, controller, control.acl], (req, res) => {
 
       let business = new Business({
          ruc: req.body.ruc,
@@ -130,7 +130,7 @@ let businessController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/business/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/business/edit/:id', [control.auth, controller, control.acl], (req, res) => {
 
       let filter = {
          _id: req.params.id
@@ -169,7 +169,7 @@ let businessController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.delete('/business/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.delete('/business/delete/:id', [control.auth, controller, control.acl], (req, res) => {
 
       let filter = {
          _id: req.params.id
@@ -187,7 +187,7 @@ let businessController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/businessImg', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/business/addbusinessImg', [control.auth, controller, control.acl], (req, res) => {
 
       upload(req , res , function(err) {
          if(!err){
@@ -200,7 +200,7 @@ let businessController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/businessImg/:name', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/business/deletebusinessImg/:name', [control.auth, controller, control.acl], (req, res) => {
 
       let $businessImgPath = `${pathBusiness}/${req.params.name}`;
       fs.unlink($businessImgPath, function (err) {

@@ -20,7 +20,7 @@ let licenseController = function (app, control={auth, passport, acl}){
       });
    }
 
-   app.get('/licenses', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/license/list', [control.auth, controller, control.acl], (req, res) => {
 
       License.find({}, function (err, docs) {
          if (typeof docs !== 'undefined') {
@@ -35,7 +35,7 @@ let licenseController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.get('/licenses/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/license/view/:id', [control.auth, controller, control.acl], (req, res) => {
 
       License.findById(req.params.id, function (err, doc) {
          if (!err) {
@@ -47,7 +47,7 @@ let licenseController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/license', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/license/add', [control.auth, controller, control.acl], (req, res) => {
 
       let $d = req.body;
       let $key = sha1(`${$d.dateStart}-${$d.years}-${$d.months}-${$d.days}`);
@@ -74,7 +74,7 @@ let licenseController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/license/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/license/edit/:id', [control.auth, controller, control.acl], (req, res) => {
 
       let filter = {
          _id: req.params.id
@@ -105,7 +105,7 @@ let licenseController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.delete('/license/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.delete('/license/delete/:id', [control.auth, controller, control.acl], (req, res) => {
 
       let filter = {
          _id: req.params.id

@@ -1,58 +1,160 @@
 {
-  "controller" : [
+  "controllers" : [
     {
-      "user" : {
-        "action" : [
-          {
-            "url" : "/users",
-            "type": "get",
-            "menu": true,
-            "show": "Listado de Usuarios"
-          },
-          {
-            "url" : "/user",
-            "type": "post",
-            "menu" : false,
-            "show": "Agregar Usuario"
-          }
-        ]
-      }
+      "name": "user",
+      "show": "Usuario",
+      "actions" : [
+        {
+          "name": "list",
+          "show": "Listado",
+          "type": "get",
+          "menu": true
+        },
+        {
+          "name": "view",
+          "show": "Visualizar",
+          "type": "get",
+          "menu": false
+        },
+        {
+          "name": "add",
+          "show": "Crear",
+          "type": "post",
+          "menu": false
+        },
+        {
+          "name": "edit",
+          "show": "Editar",
+          "type": "post",
+          "menu": false
+        },
+        {
+          "name": "delete",
+          "show": "Eliminar",
+          "type": "delete",
+          "menu": false
+        }
+      ]
     },
     {
-      "role" : {
-        "action" : [
-          {
-            "url" : "/roles",
-            "type": "get",
-            "menu": true,
-            "show": "Listado de Roles"
-          },
-          {
-            "url" : "/role",
-            "type": "post",
-            "menu" : false,
-            "show": "Agregar Rol"
-          }
-        ]
-      }
+      "name": "role",
+      "show": "Roles",
+      "actions" : [
+        {
+          "name": "list",
+          "show": "Listado",
+          "type": "get",
+          "menu": true
+        },
+        {
+          "name": "view",
+          "show": "Visualizar",
+          "type": "get",
+          "menu": false
+        },
+        {
+          "name": "add",
+          "show": "Crear",
+          "type": "post",
+          "menu": false
+        },
+        {
+          "name": "edit",
+          "show": "Editar",
+          "type": "post",
+          "menu": false
+        },
+        {
+          "name": "delete",
+          "show": "Eliminar",
+          "type": "delete",
+          "menu": false
+        },
+        {
+          "name": "grantview",
+          "show": "Ver Permisos",
+          "type": "get",
+          "menu": false
+        },
+        {
+          "name": "grantadd",
+          "show": "Asignar Permisos",
+          "type": "post",
+          "menu": false
+        }
+      ]
     },
     {
-      "business" : {
-        "action" : [
-          {
-            "url" : "/businesses",
-            "type": "get",
-            "menu": true,
-            "show": "Formato de Empresas"
-          },
-          {
-            "url" : "/business",
-            "type": "post",
-            "menu" : false,
-            "show": "Agregar Empresa"
-          }
-        ]
-      }
+      "name": "business",
+      "show": "Empresas",
+      "actions" : [
+        {
+          "name": "list",
+          "show": "Listado",
+          "type": "get",
+          "menu": true
+        },
+        {
+          "name": "view",
+          "show": "Visualizar",
+          "type": "get",
+          "menu": false
+        },
+        {
+          "name": "add",
+          "show": "Crear",
+          "type": "post",
+          "menu": false
+        },
+        {
+          "name": "edit",
+          "show": "Editar",
+          "type": "post",
+          "menu": false
+        },
+        {
+          "name": "delete",
+          "show": "Eliminar",
+          "type": "delete",
+          "menu": false
+        }
+      ]
+    },
+    {
+      "name": "license",
+      "show": "Licensias",
+      "actions" : [
+        {
+          "name": "list",
+          "show": "Listado",
+          "type": "get",
+          "menu": true
+        },
+        {
+          "name": "view",
+          "show": "Visualizar",
+          "type": "get",
+          "menu": false
+        },
+        {
+          "name": "add",
+          "show": "Crear",
+          "type": "post",
+          "menu": false
+        },
+        {
+          "name": "edit",
+          "show": "Editar",
+          "type": "post",
+          "menu": false
+        },
+        {
+          "name": "delete",
+          "show": "Eliminar",
+          "type": "delete",
+          "menu": false
+        }
+      ]
     }
   ]
 }

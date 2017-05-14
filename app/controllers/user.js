@@ -45,12 +45,13 @@ let userController = function (app, control={auth, passport, acl}){
       });
    }
 
-   app.get('/login', (req, res) => {
+   app.get('/user/login', (req, res) => {
 
       res.render('user/login');
    });
 
    app.post('/user/login', (req, res, next) => {
+      console.log(req.body);
       control.passport.authenticate('local', (err, user) => {
       if (err)  { return next(err); }
             if (!user) { return res.status(401).send({"login": false}); }
@@ -63,7 +64,7 @@ let userController = function (app, control={auth, passport, acl}){
       
    });
    
-   app.get('/logout', (req, res) => {
+   app.get('/user/logout', (req, res) => {
       req.logout();
       res.redirect('/');
    });
@@ -79,7 +80,7 @@ let userController = function (app, control={auth, passport, acl}){
       
    });
 
-   app.get('/users', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/user/list', [control.auth, controller, control.acl], (req, res) => {
 
       User.find({}, function (err, docs) {
          if (typeof docs !== 'undefined') {
@@ -94,7 +95,7 @@ let userController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.get('/user/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/user/view/:id', [control.auth, controller, control.acl], (req, res) => {
 
       User.findById(req.params.id, function (err, doc) {
          if (!err) {
@@ -106,7 +107,7 @@ let userController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/user/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/user/edit/:id', [control.auth, controller, control.acl], (req, res) => {
 
       let filter = {
          _id: req.params.id
@@ -138,7 +139,7 @@ let userController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/user', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/user/add', [control.auth, controller, control.acl], (req, res) => {
 
       let user = new User({
          name: req.body.name,
@@ -169,7 +170,7 @@ let userController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.delete('/user/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.delete('/user/delete/:id', [control.auth, controller, control.acl], (req, res) => {
 
       let filter = {
          _id: req.params.id
@@ -187,7 +188,7 @@ let userController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/userImg', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/user/adduserImg', [control.auth, controller, control.acl], (req, res) => {
 
       upload(req , res , function(err) {
          if(!err){
@@ -200,7 +201,7 @@ let userController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/userImg/:name', [control.auth, controller, control.acl], (req, res) => {
+   app.delete('/user/deleteuserImg/:name', [control.auth, controller, control.acl], (req, res) => {
 
       let $userImgPath = `${pathUser}/${req.params.name}`;
       fs.unlink($userImgPath, function (err) {
