@@ -113,7 +113,7 @@ let roleController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.get('/role/grantview/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.get('/role/viewgrant/:id', [control.auth, controller, control.acl], (req, res) => {
 
       Role.findById(req.params.id, function (err, doc) {
          if (!err) {
@@ -126,7 +126,7 @@ let roleController = function (app, control={auth, passport, acl}){
 
    });
 
-   app.post('/role/grantadd/:id', [control.auth, controller, control.acl], (req, res) => {
+   app.post('/role/addgrant/:id', [control.auth, controller, control.acl], (req, res) => {
 
       let filter = {
          _id: req.params.id
