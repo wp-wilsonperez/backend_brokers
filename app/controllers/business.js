@@ -213,6 +213,42 @@ let businessController = function (app, control={auth, passport, acl}){
 
    });
 
+   app.get('/business/viewSchedule/:id', [control.auth, controller, control.acl], (req, res) => {
+
+      Business.findById(req.params.id, function (err, doc) {
+         if (!err) {
+            res.send({msg: "OK", schedule: schedule});
+         } else {
+            res.send({msg: 'ERR', err: err});
+         }
+      });
+
+   });
+
+   app.post('/business/addSchedule/:id', [control.auth, controller, control.acl], (req, res) => {
+
+      let filter = {
+         _id: req.params.id
+      }
+
+      let $schedule = req.body.schedule;
+      console.log($schedule);
+      let update = {
+         schedule: $schedule
+      };
+
+      Business.findOneAndUpdate(filter, update, function (err, doc) {
+         if (!err) {
+            findAction(function(docs){
+               res.send({msg: "OK", update: docs});
+            });
+         } else {
+            res.send({msg: 'ERR', err: err});
+         }
+      });
+
+   });
+
 }
 
 export default businessController

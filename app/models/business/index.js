@@ -20,6 +20,17 @@ let BusinessSchema = new mongoose.Schema({
 	Actived: {type: String, require: true},
 	idLicense: {type: String, require: true},
 	nameBBDD: {type: String, require: true},
+	schedule: [ {
+			date_start: {type: Number, require: true},
+			date_end: {type: Number, require: true},
+			hours: [ {
+					start: {type: String, require: true},
+					end: {type: String, require: true},
+					
+				}
+			]
+		}
+	],
 	dateCreate: {type: Date, require: true},
 	userCreate: {type: String, require: true},
 	dateUpdate: {type: Date, require: true},
