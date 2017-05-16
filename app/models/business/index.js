@@ -23,12 +23,12 @@ let BusinessSchema = new mongoose.Schema({
 	schedule: [ {
 			date_start: {type: Number, require: true},
 			date_end: {type: Number, require: true},
-			hours: [ {
+			hours: {
 					start: {type: String, require: true},
 					end: {type: String, require: true},
 					
 				}
-			]
+			
 		}
 	],
 	dateCreate: {type: Date, require: true},
