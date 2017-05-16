@@ -2,7 +2,7 @@
 import mongoose from 'mongoose';
 
 let BusinessSchema = new mongoose.Schema({
-	ruc: {type: String, require: true},
+	ruc: {type: String, require: true, unique : true},
 	name: {type: String, require: true},
 	userMaster: {type: String, require: true},
 	password: {type: String, require: true},
