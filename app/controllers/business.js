@@ -217,7 +217,7 @@ let businessController = function (app, control={auth, passport, acl}){
 
       Business.findById(req.params.id, function (err, doc) {
          if (!err) {
-            res.send({msg: "OK", schedule: doc});
+            res.send({msg: "OK", schedule: doc.schedule});
          } else {
             res.send({msg: 'ERR', err: err});
          }
