@@ -1,5 +1,6 @@
 
 import mongoose from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 
 let UserSchema = new mongoose.Schema({
 	name: {type: String, require: true},
@@ -17,5 +18,7 @@ let UserSchema = new mongoose.Schema({
 	dateUpdate: {type: Date, require: true},
 	userUpdate: {type: String, require: true}
 });
+
+UserSchema.plugin(uniqueValidator);
 
 export default mongoose.model('User', UserSchema)

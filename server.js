@@ -43,7 +43,7 @@ let localStrategy = new LocalStrategy({
       passwordField: 'password',
       session: false
       }, (username, password, done) => {
-
+         console.log(sha1(password));
    User.findOne({cedula: username, password: sha1(password)}, (err, docs) => {
       if(err) {
          done(null, false, {

@@ -1,5 +1,6 @@
 
 import mongoose from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 
 let BusinessSchema = new mongoose.Schema({
 	ruc: {type: String, require: true, unique : true},
@@ -34,5 +35,7 @@ let BusinessSchema = new mongoose.Schema({
 	dateUpdate: {type: Date, require: true},
 	userUpdate: {type: String, require: true}
 });
+
+BusinessSchema.plugin(uniqueValidator);
 
 export default mongoose.model('Business', BusinessSchema)
