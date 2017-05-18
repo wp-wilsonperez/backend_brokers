@@ -50,7 +50,7 @@ let licenseController = function (app, control={auth, passport, acl}){
    app.post('/license/add', [control.auth, controller, control.acl], (req, res) => {
 
       let $d = req.body;
-      let $key = sha1(`${$d.dateStart}-${$d.years}-${$d.months}-${$d.days}`);
+      let $key = sha1(`${$d.dateStart}-${$d.years}-${$d.months}-${$d.days}-${$d.numberUsers}`);
 
       let license = new License({
          key: $key,
@@ -58,6 +58,7 @@ let licenseController = function (app, control={auth, passport, acl}){
          years: req.body.years,
          months: req.body.months,
          days: req.body.days,
+         numberUsers: req.body.numberUsers,
          dateCreate: moment(),
          userCreate: req.user._id,
          dateUpdate: moment(),
@@ -81,7 +82,7 @@ let licenseController = function (app, control={auth, passport, acl}){
       }
 
       let $d = req.body;
-      let $key = sha1(`${$d.dateStart}-${$d.years}-${$d.months}-${$d.days}`);
+      let $key = sha1(`${$d.dateStart}-${$d.years}-${$d.months}-${$d.days}-${$d.numberUsers}`);
 
       let update = {
          key: $key,
@@ -89,6 +90,7 @@ let licenseController = function (app, control={auth, passport, acl}){
          years: req.body.years,
          months: req.body.months,
          days: req.body.days,
+         numberUsers: req.body.numberUsers,
          dateUpdate: moment(),
          userUpdate: req.user._id
       };

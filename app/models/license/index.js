@@ -6,6 +6,7 @@ let LicenseSchema = new mongoose.Schema({
 	dateStart: {type: Date, require: true},
 	months: {type: Number, require: true},
 	years: {type: Number, require: true},
+	numberUsers: {type: Number, require: true},
 	dateCreate: {type: Date, require: true},
 	userCreate: {type: String, require: true},
 	dateUpdate: {type: Date, require: true},
