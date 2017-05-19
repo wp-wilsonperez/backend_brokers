@@ -10,7 +10,11 @@ import passport from 'passport';
 import mongoose from 'mongoose';
 import sha1 from 'sha1';
 import cors from 'cors';
+import crypto from 'crypto';
+import moment from 'moment';
 import {Strategy as LocalStrategy} from 'passport-local';
+import {Strategy as BearerStrategy} from 'passport-http-bearer';
+
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -37,6 +41,7 @@ app.get('/test', function (req, res, next) {
 })
 
 import User from './app/models/user';
+import Token from './app/models/token';
 
 let localStrategy = new LocalStrategy({
       usernameField: 'cedula',
@@ -44,20 +49,30 @@ let localStrategy = new LocalStrategy({
       session: false
       }, (username, password, done) => {
          console.log(sha1(password));
-   User.findOne({cedula: username, password: sha1(password)}, (err, docs) => {
+   User.findOne({cedula: username, password: sha1(password)}, (err, doc) => {
       if(err) {
          done(null, false, {
             message: 'Error'
          });
       }
-      if(docs) {
+      if(doc) {
+         let generatedToken = crypto.randomBytes(32).toString('hex');
+         let token = new Token({
+            token: generatedToken,
+            idUser: doc._id,
+            created: moment(),
+            expirated: moment()
+         });
+
+         token.save((err, doc) => { console.log("has been created a access token");});
          return done(null, {
-            _id: docs._id,
-            cedula: docs.cedula,
-            name: docs.name,
-            lastName: docs.lastName,
-            userImg: docs.userImg,
-            idRol: docs.idRol
+            _id: doc._id,
+            cedula: doc.cedula,
+            name: doc.name,
+            lastName: doc.lastName,
+            userImg: doc.userImg,
+            idRol: doc.idRol,
+            token: generatedToken
          });
       }else {
          done(null, false, {
@@ -67,31 +82,41 @@ let localStrategy = new LocalStrategy({
    });
 });
 
+let bearerStrategy = new BearerStrategy(
+   function(token, cb) {
+      Token.findOne({token: token}, function(err, doc) {
+         if (err) { return cb(err); }
+         if (!doc) { return cb(null, false); }
+         return cb(null, doc);
+      });
+   });
+
 passport.use(localStrategy);
+passport.use(bearerStrategy);
 passport.serializeUser((user, done) => { done(null, user) });
 passport.deserializeUser((user, done) => { done(null, user) });
 
 
 import businessController from './app/controllers/business';
-businessController(app, {passport: passport, auth: ensureAuth, acl: ensureACL});
+businessController(app, {passport: passport, auth: passport.authenticate('bearer', { session: false }), acl: ensureACL});
 
 import moduleController from './app/controllers/module';
-moduleController(app, {passport: passport, auth: ensureAuth, acl: ensureACL});
+moduleController(app, {passport: passport, auth: passport.authenticate('bearer', { session: false }), acl: ensureACL});
 
 import licenseController from './app/controllers/license';
-licenseController(app, {passport: passport, auth: ensureAuth, acl: ensureACL});
+licenseController(app, {passport: passport, auth: passport.authenticate('bearer', { session: false }), acl: ensureACL});
 
 import roleController from './app/controllers/role';
-roleController(app, {passport: passport, auth: ensureAuth, acl: ensureACL});
+roleController(app, {passport: passport, auth: passport.authenticate('bearer', { session: false }), acl: ensureACL});
 
 import userController from './app/controllers/user';
-userController(app, {passport: passport, auth: ensureAuth, acl: ensureACL});
+userController(app, {passport: passport, auth: passport.authenticate('bearer', { session: false }), acl: ensureACL});
 
 import homeController from './app/controllers/home';
-homeController(app, {auth: ensureAuth});
+homeController(app, {auth: passport.authenticate('bearer', { error: "wrong token" })});
 
 function ensureAuth (req, res, next){
-   let $AUTH = req.query.AUTH ? true : false;
+   /*let $AUTH = req.query.AUTH ? true : false;
    if ($AUTH) {
       req.user = {
          _id: 0,
@@ -107,7 +132,9 @@ function ensureAuth (req, res, next){
       return next();
    }
    console.log("LOGIN NO");
-   return res.status(401).send({"login": false});
+   return res.status(401).send({"login": false});*/
+
+   passport.authenticate('bearer', { session: false })
 }
 
 import acl from './app/configs/acl';
