@@ -96,9 +96,9 @@ let businessController = function (app, control={auth, passport, acl}){
          idLicense: req.body.idLicense,
          nameBBDD: "name BBDD",
          dateCreate: moment(),
-         userCreate: req.user._id,
+         userCreate: req.user.idUser,
          dateUpdate: moment(),
-         userUpdate: req.user._id
+         userUpdate: req.user.idUser
       });
 
       business.save((err, doc) => {
@@ -154,7 +154,7 @@ let businessController = function (app, control={auth, passport, acl}){
          Enabled: req.body.Enabled,
          Actived: req.body.Actived,
          dateUpdate: moment(),
-         userUpdate: req.user._id
+         userUpdate: req.user.idUser
       };
 
       Business.findOneAndUpdate(filter, update, function (err, doc) {

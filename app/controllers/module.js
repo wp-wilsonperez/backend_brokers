@@ -52,9 +52,9 @@ let moduleController = function (app, control={auth, passport, acl}){
          name: req.body.name,
          description: req.body.description,
          dateCreate: moment(),
-         userCreate: req.user._id,
+         userCreate: req.user.idUser,
          dateUpdate: moment(),
-         userUpdate: req.user._id
+         userUpdate: req.user.idUser
       });
 
       module.save((err, doc) => {
@@ -79,7 +79,7 @@ let moduleController = function (app, control={auth, passport, acl}){
          name: req.body.name,
          description: req.body.description,
          dateUpdate: moment(),
-         userUpdate: req.user._id
+         userUpdate: req.user.idUser
       };
 
       Module.findOneAndUpdate(filter, update, function (err, doc) {

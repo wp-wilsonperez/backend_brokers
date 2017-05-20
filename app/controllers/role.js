@@ -53,9 +53,9 @@ let roleController = function (app, control={auth, passport, acl}){
          name: req.body.name,
          description: req.body.description,
          dateCreate: moment(),
-         userCreate: req.user._id,
+         userCreate: req.user.idUser,
          dateUpdate: moment(),
-         userUpdate: req.user._id
+         userUpdate: req.user.idUser
       });
 
       role.save((err, doc) => {
@@ -80,7 +80,7 @@ let roleController = function (app, control={auth, passport, acl}){
          name: req.body.name,
          description: req.body.description,
          dateUpdate: moment(),
-         userUpdate: req.user._id
+         userUpdate: req.user.idUser
       };
 
       Role.findOneAndUpdate(filter, update, function (err, doc) {

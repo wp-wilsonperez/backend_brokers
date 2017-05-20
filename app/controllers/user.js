@@ -81,7 +81,7 @@ let userController = function (app, control={auth, passport, acl}){
    });
 
    app.get('/user/list', [control.auth, controller, control.acl], (req, res) => {
-
+      console.log(req.user);
       User.find({}, function (err, docs) {
          if (typeof docs !== 'undefined') {
             res.send({msg: "OK", users: docs});
@@ -123,7 +123,7 @@ let userController = function (app, control={auth, passport, acl}){
          idRol: req.body.idRol,
          userImg: req.body.userImg,
          dateUpdate: moment(),
-         userUpdate: req.user._id,
+         userUpdate: req.user.idUser,
          Enabled: req.body.Enabled
       };
 
@@ -152,9 +152,9 @@ let userController = function (app, control={auth, passport, acl}){
          idRol: req.body.idRol,
          userImg: req.body.userImg,
          dateCreate: moment(),
-         userCreate: req.user._id,
+         userCreate: req.user.idUser,
          dateUpdate: moment(),
-         userUpdate: req.user._id,
+         userUpdate: req.user.idUser,
          Enabled: req.body.Enabled
       });
 

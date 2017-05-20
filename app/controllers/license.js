@@ -60,9 +60,9 @@ let licenseController = function (app, control={auth, passport, acl}){
          days: req.body.days,
          numberUsers: req.body.numberUsers,
          dateCreate: moment(),
-         userCreate: req.user._id,
+         userCreate: req.user.idUser,
          dateUpdate: moment(),
-         userUpdate: req.user._id
+         userUpdate: req.user.idUser
       });
 
       license.save((err, doc) => {
@@ -92,7 +92,7 @@ let licenseController = function (app, control={auth, passport, acl}){
          days: req.body.days,
          numberUsers: req.body.numberUsers,
          dateUpdate: moment(),
-         userUpdate: req.user._id
+         userUpdate: req.user.idUser
       };
 
       License.findOneAndUpdate(filter, update, function (err, doc) {
