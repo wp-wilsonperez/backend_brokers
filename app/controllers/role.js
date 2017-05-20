@@ -133,15 +133,12 @@ let roleController = function (app, control={auth, passport, acl}){
       }
 
       let $grant = req.body.grant;
-      console.log($grant);
-      console.log(typeof($grant));
       if (typeof($grant) !== "object") {
          return res.send({msg: 'ERR', err: "the format is not an objet"});
       }
       let update = {
          grant: JSON.stringify($grant)
       };
-      console.log(update);
 
       Role.findOneAndUpdate(filter, update, function (err, doc) {
          if (!err) {

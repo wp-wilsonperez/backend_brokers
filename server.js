@@ -42,13 +42,14 @@ app.get('/test', function (req, res, next) {
 
 import User from './app/models/user';
 import Token from './app/models/token';
+import Role from './app/models/role';
 
 let localStrategy = new LocalStrategy({
       usernameField: 'cedula',
       passwordField: 'password',
       session: false
       }, (username, password, done) => {
-         console.log(sha1(password));
+         //console.log(sha1(password));
    User.findOne({cedula: username, password: sha1(password)}, (err, doc) => {
       if(err) {
          done(null, false, {
@@ -60,8 +61,9 @@ let localStrategy = new LocalStrategy({
          let token = new Token({
             token: generatedToken,
             idUser: doc._id,
+            idRol: doc.idRol,
             created: moment(),
-            expirated: moment()
+            expiration: moment()
          });
 
          token.save((err, doc) => { console.log("has been created a access token");});
@@ -86,6 +88,7 @@ let bearerStrategy = new BearerStrategy(
    function(token, cb) {
       Token.findOne({token: token}, function(err, doc) {
          if (err) { return cb(err); }
+         //console.log(doc);
          if (!doc) { return cb(null, false); }
          return cb(null, doc);
       });
@@ -139,22 +142,23 @@ function ensureAuth (req, res, next){
 
 import acl from './app/configs/acl';
 function ensureACL (req, res, next){
-   return next();
-   let $AUTH = req.query.AUTH ? true : false;
-   if ($AUTH) {
-      return next();
-   }
-   for(let key in acl.controller[req.controller].endpoint){
-      if(acl.controller[req.controller].endpoint[key].uri == req.route.path){
-         console.log(acl.controller[req.controller].endpoint[key].uri);
-         console.log(" - - - - ");
-         console.log(req.route.path);
-         let rol = acl.controller[req.controller].endpoint[key].rol;
-         //if(rol.indexOf(req.user.rol) > -1)
-            return next();
+   let $controller = req.route.path.split("/")[1];
+   let $action = req.route.path.split("/")[2];
+   Role.findById(req.user.idRol, function (err, doc) {
+      if (!err) {
+         if(!doc){return res.send({msg: 'ERR', err: "No assigned privileges"});}
+         let $grant = doc.grant != "" ? JSON.parse(doc.grant) : {};
+         if($grant[$controller]){
+            if($grant[$controller][$action]){
+               return next();
+            }
+         }
+         //console.log($grant);
+         return res.send({msg: 'ERR', err: "No privileges"});
+      } else {
+         return res.send({msg: 'ERR', err: err});
       }
-   }
-   return res.status(401).send({"privilege": false});
+   });
 }
 
 
