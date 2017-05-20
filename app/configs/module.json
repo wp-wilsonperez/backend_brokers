@@ -117,6 +117,18 @@
           "show": "Eliminar",
           "type": "delete",
           "menu": false
+        },
+        {
+          "name": "viewSchedule",
+          "show": "Visualizar Horarios",
+          "type": "get",
+          "menu": false
+        },
+        {
+          "name": "addSchedule",
+          "show": "Crear Horarios",
+          "type": "post",
+          "menu": false
         }
       ]
     },

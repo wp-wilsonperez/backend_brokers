@@ -141,12 +141,27 @@ function ensureAuth (req, res, next){
 }
 
 function ensureACL (req, res, next){
+   let $moduleAllow = {
+      "user": {
+         "adduserImg": true,
+         "deleteuserImg": true
+      },
+      "business": {
+         "addbusinessImg": true,
+         "deletebusinessImg": true
+      }
+   };
    let $controller = req.route.path.split("/")[1];
    let $action = req.route.path.split("/")[2];
    Role.findById(req.user.idRol, function (err, doc) {
       if (!err) {
          if(!doc){return res.send({msg: 'ERR', err: "No assigned privileges"});}
          let $grant = doc.grant != "" ? JSON.parse(doc.grant) : {};
+         if($moduleAllow[$controller]){
+            if($moduleAllow[$controller][$action]){
+               return next();
+            }
+         }
          if($grant[$controller]){
             if($grant[$controller][$action]){
                return next();
