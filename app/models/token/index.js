@@ -6,7 +6,7 @@ let TokenSchema = new mongoose.Schema({
 	idUser: {type: String, require: true},
 	idRol: {type: String, require: true},
 	created: {type: Date, require: true},
-	expirated: {type: Date, require: true}
+	expiration: {type: Date, require: true}
 });
 
 export default mongoose.model('Token', TokenSchema)

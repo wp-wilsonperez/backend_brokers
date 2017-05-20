@@ -140,7 +140,6 @@ function ensureAuth (req, res, next){
    passport.authenticate('bearer', { session: false })
 }
 
-import acl from './app/configs/acl';
 function ensureACL (req, res, next){
    let $controller = req.route.path.split("/")[1];
    let $action = req.route.path.split("/")[2];
