@@ -71,13 +71,13 @@
           "menu": false
         },
         {
-          "name": "grantview",
+          "name": "viewgrant",
           "show": "Ver Permisos",
           "type": "get",
           "menu": false
         },
         {
-          "name": "grantadd",
+          "name": "addgrant",
           "show": "Asignar Permisos",
           "type": "post",
           "menu": false

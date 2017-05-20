@@ -100,7 +100,7 @@ let roleController = function (app, control={auth, passport, acl}){
       let filter = {
          _id: req.params.id
       }
-
+      console.log("/role/delete/");
       Role.findByIdAndRemove(filter, function (err, doc) {
          if(!err){
             findAction(function(docs){
@@ -114,7 +114,7 @@ let roleController = function (app, control={auth, passport, acl}){
    });
 
    app.get('/role/viewgrant/:id', [control.auth, controller, control.acl], (req, res) => {
-
+      console.log("/role/viewgrant/");
       Role.findById(req.params.id, function (err, doc) {
          if (!err) {
             let $grant = doc.grant != "" ? JSON.parse(doc.grant) : {};
@@ -127,7 +127,7 @@ let roleController = function (app, control={auth, passport, acl}){
    });
 
    app.post('/role/addgrant/:id', [control.auth, controller, control.acl], (req, res) => {
-
+      console.log("/role/addgrant/");
       let filter = {
          _id: req.params.id
       }
