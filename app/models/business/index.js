@@ -12,7 +12,7 @@ let BusinessSchema = new mongoose.Schema({
 	address: {type: String, require: true},
 	businessImg: {type: String, require: true},
 	description: {type: String, require: true},
-	constitutionDate: {type: Date, require: true},
+	constitutionDate: {type: String, require: true},
 	parking: {type: Boolean, require: true},
 	numberEmp: {type: Number, require: true},
 	mail: {type: String, require: true},
